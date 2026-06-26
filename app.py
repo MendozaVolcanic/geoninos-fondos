@@ -204,10 +204,11 @@ with tab_ruta:
 El financiamiento de un libro infantil en Chile se arma por **etapas**, no con un
 solo fondo. El eje es el **Fondo del Libro y la Lectura (MINCAP)** — *no* FONDART.
 
-**Paso 0 — Inmediato (antes del 31-jul-2026):**
-Postular la **Beca de Creación Literaria** (género Literatura Infantil / Libro Álbum).
-Financia escribir + ilustrar. Modalidad Coautoría ($7,5M) si ya hay ilustrador/a.
-*Registrar Perfil Cultura del autor y del ilustrador cuanto antes.*
+**Paso 0 — Estar listos para cuando abra (ciclo 2027):**
+La Beca de Creación Literaria es **anual**; la convocatoria de ejecución 2026 ya cerró
+(jul-2025) y la próxima aún no se publica. Tener lista la muestra para postular apenas
+abra. Género Literatura Infantil / Libro Álbum, modalidad Coautoría ($7,5M) con
+ilustrador/a. *Registrar Perfil Cultura del autor y del ilustrador cuanto antes.*
 
 **Paso 1 — En paralelo (jul–ago):**
 Conseguir **aval/coedición de SERNAGEOMIN** (tu palanca institucional más natural) y
