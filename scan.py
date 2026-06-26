@@ -69,16 +69,20 @@ CATALOGO: list[dict] = [
         "descripcion": (
             "EJE DEL PROYECTO. Financia finalizar una obra inédita en género "
             "Literatura Infantil / Libro Álbum: cubre escribir + ilustrar. "
-            "Unipersonal $5M (no exige ilustraciones). Coautoría $7,5M "
-            "(en Infantil/Juvenil la coautoría OBLIGA ilustraciones; vía natural "
-            "si trabajas con un/a ilustrador/a). Registro previo en Perfil Cultura "
-            "del autor y del ilustrador."
+            "Unipersonal $5M (sin ilustraciones). Coautoría $7,5M (Libro Álbum y "
+            "Lit. Infantil con equipo OBLIGAN ilustraciones; vía natural con un/a "
+            "ilustrador/a). Evaluación CIEGA (no pesa trayectoria). "
+            "ESTADO (verificado 2026-06-26): la convocatoria de ejecución 2026 "
+            "CERRÓ el 31-jul-2025. La línea es anual (abre ~fines de junio, cierra "
+            "~fines de julio). La próxima (ejecución 2027) aún NO se publica → "
+            "MONITOREAR fondosdecultura.cl. Preparar dummy + Perfil Cultura ahora."
         ),
         "monto_min": 5_000_000, "monto_max": 7_500_000, "moneda": "CLP",
-        "fecha_apertura": "2026-06-25", "fecha_cierre": "2026-07-31",
-        "url": "https://www.fondosdecultura.cl/fomento-a-la-creacion-fondo-del-libro-y-la-lectura-2026/",
+        "fecha_apertura": "", "fecha_cierre": "",
+        "url": "https://www.fondosdecultura.cl/fondos/fondo-libro-lectura/lineas-de-concurso/",
         "requisitos": ["obra inédita", "Perfil Cultura del autor e ilustrador",
-                       "carta de compromiso del ilustrador (coautoría)"],
+                       "muestra 8-30 págs (Infantil) / 8-20 (Álbum)",
+                       "cartas de compromiso del equipo"],
         "score_geoninos": 98, "internacional": 0, "verificado": "si",
     },
     {
@@ -91,12 +95,14 @@ CATALOGO: list[dict] = [
             "Financia editar, imprimir, distribuir y difundir la obra. Requisito "
             "decisivo: el postulante debe acreditar giro editorial (Inicio de "
             "Actividades SII) → en la práctica un autor persona natural NO postula "
-            "solo: necesita una editorial que presente el proyecto. Monto por "
-            "modalidad 2026 [NO VERIFICADO: confirmar en bases]. Fondo global "
-            "$5M–$75M."
+            "solo: necesita una editorial que presente el proyecto. "
+            "ESTADO (verificado 2026-06-26): la convocatoria de ejecución 2026 "
+            "CERRÓ el 4-ago-2025. Línea anual → la próxima (ejecución 2027) aún NO "
+            "se publica. MONITOREAR. Monto por modalidad [NO VERIFICADO en bases]. "
+            "Fondo global $5M–$75M."
         ),
         "monto_min": 5_000_000, "monto_max": 75_000_000, "moneda": "CLP",
-        "fecha_apertura": "2026-06-26", "fecha_cierre": "2026-08-04",
+        "fecha_apertura": "", "fecha_cierre": "",
         "url": "https://www.fondosdecultura.cl/fondos/fondo-libro-lectura/lineas-de-concurso/",
         "requisitos": ["editorial con giro SII", "carta de cesión del autor",
                        "compromiso de distribución"],
