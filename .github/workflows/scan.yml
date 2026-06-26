@@ -1,0 +1,38 @@
+name: Escaneo de fondos Geoniños
+
+# Escaneo constante: recalcula el estado de las convocatorias (abierto/próximo/
+# cerrado) según la fecha y commitea el CSV actualizado. Streamlit Cloud
+# redespliega solo al detectar el cambio en el repo.
+
+on:
+  schedule:
+    - cron: "0 11,23 * * *"   # 08:00 y 20:00 hora de Chile (UTC-3 aprox.)
+  workflow_dispatch:           # permite ejecutarlo a mano desde la pestaña Actions
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Ejecutar scanner
+        run: python scan.py
+
+      - name: Commitear datos actualizados
+        run: |
+          git config user.name  "geoninos-bot"
+          git config user.email "actions@github.com"
+          git add data/fondos_divulgacion.csv
+          if git diff --staged --quiet; then
+            echo "Sin cambios en los fondos."
+          else
+            git commit -m "scan: actualización automática de estado de fondos"
+            git push
+          fi
