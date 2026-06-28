@@ -44,7 +44,7 @@ CSV_PATH = DATA_DIR / "fondos_divulgacion.csv"
 
 # Columnas del CSV (estables — el dashboard depende de estos nombres)
 COLUMNS = [
-    "id", "fuente", "nombre", "organismo", "categoria", "tipo", "estado",
+    "id", "fuente", "nombre", "organismo", "categoria", "tipo", "estado", "ventana",
     "descripcion", "monto_min", "monto_max", "moneda",
     "fecha_apertura", "fecha_cierre", "url", "requisitos",
     "score_geoninos", "internacional", "verificado", "updated_at",
@@ -163,7 +163,7 @@ CATALOGO: list[dict] = [
         ),
         "monto_min": 1_000_000, "monto_max": 25_000_000, "moneda": "CLP",
         "fecha_apertura": "", "fecha_cierre": "",
-        "url": "https://www.fondos.gob.cl/ficha/subciteco/cienciapublica-productos/",
+        "url": "https://cienciapublica.cl/concursos/",
         "requisitos": ["persona natural elegible (sin editorial)",
                        "proyecto de divulgación científica",
                        "distribución gratuita obligatoria"],
@@ -603,8 +603,8 @@ CATALOGO: list[dict] = [
 VENTANAS_ANUALES: dict[str, tuple[set, str]] = {
     "FL-beca-creacion": ({6, 7}, "abre ~fines de junio, cierra ~fines de julio"),
     "FL-apoyo-ediciones": ({6, 7, 8}, "abre ~fines de junio, cierra ~inicios de agosto"),
-    "MINCIENCIA-ciencia-publica": ({5, 6, 7}, "anual, suele abrir mayo–junio"),
-    "SNBP-adquisicion": ({9, 10}, "anual, suele abrir sep–oct"),
+    "MINCIENCIA-ciencia-publica": ({5, 6, 7}, "suele abrir mayo–junio"),
+    "SNBP-adquisicion": ({9, 10}, "suele abrir sep–oct"),
 }
 
 
@@ -634,6 +634,17 @@ def _parse(value) -> date | None:
         return None
 
 
+def _ventana_texto(fondo: dict, estado: str) -> str:
+    """Texto de plazo/ventana para mostrar en la tabla y las tarjetas, también
+    cuando el fondo no tiene fecha fija (anuales sin convocatoria publicada)."""
+    cierre = fondo.get("fecha_cierre")
+    if cierre:
+        return ("cerró " if estado == "cerrado" else "cierra ") + str(cierre)
+    if fondo.get("id") in VENTANAS_ANUALES:
+        return "anual: " + VENTANAS_ANUALES[fondo["id"]][1]
+    return "sin fecha fija / contacto directo"
+
+
 def construir_filas(hoy: date) -> list[dict]:
     filas = []
     stamp = hoy.isoformat()
@@ -641,6 +652,7 @@ def construir_filas(hoy: date) -> list[dict]:
         fila = dict(fondo)
         fila["fuente"] = "catalogo_curado"
         fila["estado"] = recalcular_estado(fondo, hoy)
+        fila["ventana"] = _ventana_texto(fondo, fila["estado"])
         fila["requisitos"] = json.dumps(fondo.get("requisitos", []), ensure_ascii=False)
         fila["updated_at"] = stamp
         filas.append({col: fila.get(col, "") for col in COLUMNS})

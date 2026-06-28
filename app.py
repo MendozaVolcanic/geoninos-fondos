@@ -102,10 +102,10 @@ def tarjeta(row, mostrar_score=True):
         )
         verif = {"si": "✔ verificado", "parcial": "◐ parcial", "no": "⚠ por verificar"}.get(
             str(row.get("verificado", "")), "")
+        ventana = str(row.get("ventana", "")).strip()
         st.caption(
             f"🏛 {row.get('organismo','—')}  |  💰 {formato_monto(row)}"
-            + (f"  |  📅 Cierre: {row['fecha_cierre']}"
-               if str(row.get('fecha_cierre','')) not in ['', 'nan', 'None'] else "")
+            + (f"  |  📅 {ventana}" if ventana and ventana not in ['nan', 'None'] else "")
             + (f"  |  {verif}" if verif else "")
         )
         desc = str(row.get("descripcion", ""))
@@ -240,20 +240,35 @@ with tab_cat:
                 tarjeta(row, mostrar_score=True)
 
 with tab_tabla:
-    cols = [c for c in ["nombre", "organismo", "categoria", "estado", "monto_min",
-                        "monto_max", "moneda", "fecha_cierre", "score_geoninos",
-                        "verificado", "url"] if c in df.columns]
-    tabla = filtered[cols].rename(columns={
-        "nombre": "Fondo", "organismo": "Organismo", "categoria": "Categoría",
-        "estado": "Estado", "monto_min": "Monto Mín", "monto_max": "Monto Máx",
-        "moneda": "Moneda", "fecha_cierre": "Cierre", "score_geoninos": "Relevancia",
-        "verificado": "Verif.", "url": "URL",
+    st.caption(f"{len(filtered)} fondos · clic en «abrir» para ir a la convocatoria · ordená por cualquier columna")
+    cat_corto = {
+        "creacion": "✍️ Crear", "edicion": "🖨️ Editar", "divulgacion_ciencia": "🔬 Divulgación",
+        "patrocinio": "🤝 Patrocinio", "auspicio_privado": "🏭 Auspicio", "editorial": "📚 Editorial",
+        "premio_compra": "🏆 Premio/compra", "internacional": "🌍 Internac.",
+    }
+    est_emoji = {"abierto": "🟢 abierto", "proximo": "🟡 próximo", "cerrado": "🔴 cerrado", "desconocido": "⚪ s/fecha"}
+    ver_emoji = {"si": "✔", "parcial": "◐", "no": "⚠"}
+    tabla = pd.DataFrame({
+        "Fondo": filtered["nombre"],
+        "Categoría": filtered["categoria"].map(lambda c: cat_corto.get(c, c)),
+        "Estado": filtered["estado"].map(lambda e: est_emoji.get(str(e).lower(), e)),
+        "Monto": filtered.apply(formato_monto, axis=1),
+        "Plazo / ventana": filtered.get("ventana", ""),
+        "Relev.": pd.to_numeric(filtered["score_geoninos"], errors="coerce").fillna(0),
+        "Ver.": filtered["verificado"].map(lambda v: ver_emoji.get(str(v), "")),
+        "URL": filtered["url"],
     })
     st.dataframe(
-        tabla, use_container_width=True, height=500,
+        tabla, use_container_width=True, height=640, hide_index=True,
         column_config={
-            "Relevancia": st.column_config.ProgressColumn("🪨 Relevancia", min_value=0, max_value=100),
-            "URL": st.column_config.LinkColumn("🔗 URL"),
+            "Fondo": st.column_config.TextColumn(width="large"),
+            "Categoría": st.column_config.TextColumn(width="small"),
+            "Estado": st.column_config.TextColumn(width="small"),
+            "Monto": st.column_config.TextColumn(width="small"),
+            "Plazo / ventana": st.column_config.TextColumn(width="medium"),
+            "Relev.": st.column_config.ProgressColumn("Relev.", min_value=0, max_value=100, format="%d", width="small"),
+            "Ver.": st.column_config.TextColumn(width="small", help="✔ verificado · ◐ parcial · ⚠ por verificar"),
+            "URL": st.column_config.LinkColumn("Link", display_text="abrir", width="small"),
         },
     )
     st.download_button(
