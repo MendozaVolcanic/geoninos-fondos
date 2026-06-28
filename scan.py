@@ -388,7 +388,7 @@ CATALOGO: list[dict] = [
         ),
         "monto_min": "", "monto_max": "", "moneda": "CLP",
         "fecha_apertura": "", "fecha_cierre": "",
-        "url": "https://www.conicyt.cl/explora/",
+        "url": "https://explora.cl/",
         "requisitos": ["alianza con institución ejecutora de un PAR"],
         "score_geoninos": 48, "internacional": 0, "verificado": "no",
     },
@@ -741,6 +741,59 @@ def augmentar_datos_gob(filas: list[dict]) -> list[dict]:
     return filas
 
 
+def scrapear_fondo_libro(filas: list[dict]) -> None:
+    """Detección REAL de apertura: lee la página de líneas del Fondo del Libro y,
+    si encuentra un plazo FUTURO para 'Fomento a la creación' o 'Fomento a la
+    industria', marca ese fondo como abierto con su fecha de cierre real.
+    Conservador: si solo halla plazos pasados o falla, NO toca nada (queda la
+    lógica de ventana anual). Best-effort: nunca rompe el scan.
+    Nota: si la página es JS-dinámica o bloquea el bot, esto no obtiene datos y
+    cae en silencio — el sistema de ventana estimada sigue funcionando.
+    """
+    import re
+    import urllib.request
+
+    url = ("https://www.fondosdecultura.cl/fondos/fondo-libro-lectura/"
+           "lineas-de-concurso/")
+    mapping = {
+        "FL-beca-creacion": "fomento a la creaci",
+        "FL-apoyo-ediciones": "fomento a la industria",
+    }
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        html = urllib.request.urlopen(req, timeout=25).read().decode("utf-8", "ignore")
+        texto = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
+        by_id = {f["id"]: f for f in filas}
+        hoy = date.today()
+        encontrados = 0
+        for fid, needle in mapping.items():
+            fila = by_id.get(fid)
+            if not fila:
+                continue
+            i = texto.lower().find(needle)
+            if i == -1:
+                continue
+            ventana_txt = texto[i:i + 400]
+            m = re.search(r"(\d{2})-(\d{2})-(\d{4})", ventana_txt)
+            if not m:
+                continue
+            d, mo, y = (int(x) for x in m.groups())
+            try:
+                cierre = date(y, mo, d)
+            except ValueError:
+                continue
+            if cierre >= hoy:  # solo si hay convocatoria realmente vigente
+                fila["fecha_cierre"] = cierre.isoformat()
+                fila["estado"] = "abierto"
+                fila["ventana"] = "cierra " + cierre.isoformat() + " (detectado en web)"
+                fila["fuente"] = "fondosdecultura(scrape)"
+                encontrados += 1
+        print(f"[fondosdecultura] scrape OK ({encontrados} convocatoria(s) vigente(s) detectada(s)).")
+    except Exception as exc:  # noqa: BLE001 — best-effort
+        print(f"[fondosdecultura] scrape omitido ({exc.__class__.__name__}); "
+              f"queda la lógica de ventana estimada.")
+
+
 def escribir_csv(filas: list[dict]) -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     filas_ordenadas = sorted(filas, key=lambda f: f["score_geoninos"], reverse=True)
@@ -834,6 +887,7 @@ def main() -> None:
     filas = construir_filas(hoy)
     if not sin_red:
         filas = augmentar_datos_gob(filas)
+        scrapear_fondo_libro(filas)
     escribir_csv(filas)
     alertas = detectar_alertas(filas, estados_previos, hoy)
     emitir_alertas(alertas, hoy)
