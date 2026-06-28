@@ -153,18 +153,76 @@ CATALOGO: list[dict] = [
         "categoria": "divulgacion_ciencia",
         "tipo": "ciencia",
         "descripcion": (
-            "Instrumento público natural para divulgación científica. Líneas "
-            "históricas: Productos de Divulgación (hasta ~$20M), Exposiciones y "
-            "Espacios Públicos, Conocimiento Local. No se confirmó si financia "
-            "libros directamente ni convocatoria 2026 [NO VERIFICADO: confirmar "
-            "en cienciapublica.cl]."
+            "HALLAZGO CLAVE (verificado 2026-06-27): la línea 'Productos de "
+            "Divulgación del Conocimiento' financia explícitamente LIBROS de "
+            "divulgación, hasta $25M, y admite PERSONA NATURAL (sin necesidad de "
+            "editorial). Única condición fuerte: distribución gratuita (ideal para "
+            "tiraje a escuelas/bibliotecas). Complementa al Fondo del Libro (que sí "
+            "permite venta). Es ANUAL (abre ~mediados de año). Estado del ciclo "
+            "vigente [VERIFICAR fechas en fondos.gob.cl]."
         ),
-        "monto_min": 1_000_000, "monto_max": 40_000_000, "moneda": "CLP",
+        "monto_min": 1_000_000, "monto_max": 25_000_000, "moneda": "CLP",
         "fecha_apertura": "", "fecha_cierre": "",
-        "url": "https://cienciapublica.cl/concursos/",
-        "requisitos": ["proyecto de divulgación científica",
-                       "persona natural, institución u organización"],
-        "score_geoninos": 65, "internacional": 0, "verificado": "no",
+        "url": "https://www.fondos.gob.cl/ficha/subciteco/cienciapublica-productos/",
+        "requisitos": ["persona natural elegible (sin editorial)",
+                       "proyecto de divulgación científica",
+                       "distribución gratuita obligatoria"],
+        "score_geoninos": 80, "internacional": 0, "verificado": "parcial",
+    },
+    {
+        "id": "SM-barco-de-vapor",
+        "nombre": "Premio El Barco de Vapor — Fundación SM",
+        "organismo": "Fundación SM",
+        "categoria": "internacional",
+        "tipo": "editorial",
+        "descripcion": (
+            "Premio a un original INÉDITO de literatura infantil/juvenil: funciona "
+            "como financiamiento + publicación de la obra ganadora (35.000 € brutos). "
+            "Es literario → el manuscrito debe tener cuerpo narrativo (encaja con "
+            "'Pewma y la piedrita viajera'). Anual; bases 2026 publicadas. La vía "
+            "internacional más concreta con dinero real."
+        ),
+        "monto_min": "", "monto_max": "", "moneda": "EUR",
+        "fecha_apertura": "", "fecha_cierre": "",
+        "url": "https://es.literaturasm.com/premios-sm",
+        "requisitos": ["obra original inédita", "cuerpo narrativo (no solo informativo)"],
+        "score_geoninos": 60, "internacional": 1, "verificado": "si",
+    },
+    {
+        "id": "fundacion-la-fuente",
+        "nombre": "Fundación La Fuente — patrocinio LIJ",
+        "organismo": "Fundación La Fuente",
+        "categoria": "auspicio_privado",
+        "tipo": "privado",
+        "descripcion": (
+            "Fomento de la lectura. Ofrece patrocinio para proyectos de tiraje corto "
+            "de literatura infantil/juvenil vía Ley de Donaciones Culturales, y opera "
+            "Viva Leer Copec. Modelo: patrocinio/canal de distribución, no premio en "
+            "efectivo. Bases y calendario [VERIFICAR — recurrente]. Consulta directa."
+        ),
+        "monto_min": "", "monto_max": "", "moneda": "CLP",
+        "fecha_apertura": "", "fecha_cierre": "",
+        "url": "https://www.fundacionlafuente.cl/",
+        "requisitos": ["consulta directa", "proyecto de tiraje corto LIJ"],
+        "score_geoninos": 58, "internacional": 0, "verificado": "no",
+    },
+    {
+        "id": "fundacion-collahuasi",
+        "nombre": "Fundación Educacional Collahuasi — coedición/auspicio",
+        "organismo": "Fundación Educacional Collahuasi (minera)",
+        "categoria": "auspicio_privado",
+        "tipo": "privado",
+        "descripcion": (
+            "Ya editó un libro infantil de tradición oral de Tarapacá → la mayor "
+            "afinidad editorial del grupo minero. No hay concurso abierto a autores "
+            "con bases públicas; opera por programas propios/alianzas. Vía: contacto "
+            "directo para coedición/auspicio. [NO VERIFICADO montos/plazos]."
+        ),
+        "monto_min": "", "monto_max": "", "moneda": "CLP",
+        "fecha_apertura": "", "fecha_cierre": "",
+        "url": "https://fundacioncollahuasi.cl/",
+        "requisitos": ["contacto directo", "anclaje regional Tarapacá ayuda"],
+        "score_geoninos": 47, "internacional": 0, "verificado": "no",
     },
     {
         "id": "CMP-fondo-cultura",
@@ -437,6 +495,18 @@ CATALOGO: list[dict] = [
     },
 ]
 
+# ──────────────────────────────────────────────────────────────────────────────
+# VENTANAS ANUALES — fondos sin fecha publicada pero que abren ~el mismo mes cada
+# año. El scanner avisa cuando entramos en la ventana estimada, para no perder la
+# convocatoria (riesgo real del proyecto: la Beca y Ciencia Pública son anuales).
+# Valor: (meses_estimados_de_apertura, etiqueta).
+# ──────────────────────────────────────────────────────────────────────────────
+VENTANAS_ANUALES: dict[str, tuple[set, str]] = {
+    "FL-beca-creacion": ({6, 7}, "abre ~fines de junio, cierra ~fines de julio"),
+    "FL-apoyo-ediciones": ({6, 7, 8}, "abre ~fines de junio, cierra ~inicios de agosto"),
+    "MINCIENCIA-ciencia-publica": ({5, 6, 7}, "anual, suele abrir mayo–junio"),
+}
+
 
 def recalcular_estado(fondo: dict, hoy: date) -> str:
     """Recalcula el estado de la convocatoria comparando fechas con hoy.
@@ -510,14 +580,90 @@ def escribir_csv(filas: list[dict]) -> None:
           f"({abiertos} abiertos hoy).")
 
 
+def leer_estados_previos() -> dict[str, str]:
+    """Lee el CSV anterior (antes de sobrescribirlo) para detectar cambios."""
+    if not CSV_PATH.exists():
+        return {}
+    out: dict[str, str] = {}
+    try:
+        with CSV_PATH.open(encoding="utf-8-sig") as fh:
+            for row in csv.DictReader(fh):
+                out[row.get("id", "")] = row.get("estado", "")
+    except OSError:
+        pass
+    return out
+
+
+def detectar_alertas(filas: list[dict], previos: dict[str, str], hoy: date) -> list[str]:
+    """Genera alertas: (1) fondos que ACABAN de abrir; (2) fondos anuales que
+    entran en su ventana estimada de apertura este mes."""
+    alertas: list[str] = []
+    by_id = {f["id"]: f for f in filas}
+    for f in filas:
+        prev = previos.get(f["id"])
+        if f["estado"] == "abierto" and prev != "abierto":
+            etq = "NUEVO y ABIERTO" if prev is None else "ACABA DE ABRIR"
+            cierre = f.get("fecha_cierre") or "s/fecha"
+            alertas.append(f"🟢 {etq}: {f['nombre']} — cierre {cierre} | {f.get('url','')}")
+    for fid, (meses, etq) in VENTANAS_ANUALES.items():
+        f = by_id.get(fid)
+        if f and hoy.month in meses and f["estado"] in ("desconocido", "proximo"):
+            alertas.append(f"🟡 VENTANA ESTIMADA ({etq}): {f['nombre']} — "
+                           f"revisar si ya abrió: {f.get('url','')}")
+    return alertas
+
+
+def enviar_telegram(mensaje: str) -> bool:
+    """Envía alerta por Telegram si hay credenciales en variables de entorno
+    (TELEGRAM_TOKEN_GEONINOS / TELEGRAM_CHAT_ID_GEONINOS). Opcional: si no están,
+    no hace nada."""
+    import os
+    import urllib.parse
+    import urllib.request
+
+    token = os.environ.get("TELEGRAM_TOKEN_GEONINOS")
+    chat = os.environ.get("TELEGRAM_CHAT_ID_GEONINOS")
+    if not token or not chat:
+        return False
+    try:
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        data = urllib.parse.urlencode(
+            {"chat_id": chat, "text": mensaje, "disable_web_page_preview": "true"}
+        ).encode()
+        urllib.request.urlopen(urllib.request.Request(url, data=data), timeout=20)
+        return True
+    except Exception as exc:  # noqa: BLE001 — opcional, nunca debe romper el scan
+        print(f"[telegram] no se pudo enviar ({exc.__class__.__name__}).")
+        return False
+
+
+def emitir_alertas(alertas: list[str], hoy: date) -> None:
+    """Imprime alertas, las guarda en data/ultimo_scan.md y, si hay credenciales,
+    las manda por Telegram."""
+    lineas = [f"# Último escaneo — {hoy.isoformat()}", ""]
+    if alertas:
+        print("\n".join(["", "=== ALERTAS ==="] + alertas))
+        lineas.append("## Alertas")
+        lineas += [f"- {a}" for a in alertas]
+        if enviar_telegram("Geoniños — fondos:\n" + "\n".join(alertas)):
+            print("[telegram] alerta enviada.")
+    else:
+        print("Sin alertas en este escaneo.")
+        lineas.append("Sin novedades: ninguna convocatoria abrió ni entró en ventana estimada.")
+    (DATA_DIR / "ultimo_scan.md").write_text("\n".join(lineas) + "\n", encoding="utf-8")
+
+
 def main() -> None:
     sin_red = "--sin-red" in sys.argv
     hoy = date.today()
     print(f"Scanner Geoniños — fecha de referencia: {hoy.isoformat()}")
+    estados_previos = leer_estados_previos()   # antes de sobrescribir el CSV
     filas = construir_filas(hoy)
     if not sin_red:
         filas = augmentar_datos_gob(filas)
     escribir_csv(filas)
+    alertas = detectar_alertas(filas, estados_previos, hoy)
+    emitir_alertas(alertas, hoy)
 
 
 if __name__ == "__main__":
