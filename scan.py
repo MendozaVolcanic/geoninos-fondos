@@ -79,7 +79,7 @@ CATALOGO: list[dict] = [
         ),
         "monto_min": 5_000_000, "monto_max": 7_500_000, "moneda": "CLP",
         "fecha_apertura": "", "fecha_cierre": "",
-        "url": "https://www.fondosdecultura.cl/fondos/fondo-libro-lectura/lineas-de-concurso/",
+        "url": "https://www.fondosdecultura.cl/fondos/fondo-libro-lectura/lineas-de-concurso/fomento-a-la-creacion-fondo-del-libro-y-la-lectura-2026/",
         "requisitos": ["obra inédita", "Perfil Cultura del autor e ilustrador",
                        "muestra 8-30 págs (Infantil) / 8-20 (Álbum)",
                        "cartas de compromiso del equipo"],
@@ -103,7 +103,7 @@ CATALOGO: list[dict] = [
         ),
         "monto_min": 5_000_000, "monto_max": 75_000_000, "moneda": "CLP",
         "fecha_apertura": "", "fecha_cierre": "",
-        "url": "https://www.fondosdecultura.cl/fondos/fondo-libro-lectura/lineas-de-concurso/",
+        "url": "https://www.fondosdecultura.cl/fondos/fondo-libro-lectura/lineas-de-concurso/fomento-a-la-industria-fondo-del-libro-y-la-lectura-2026/",
         "requisitos": ["editorial con giro SII", "carta de cesión del autor",
                        "compromiso de distribución"],
         "score_geoninos": 90, "internacional": 0, "verificado": "parcial",
@@ -707,6 +707,12 @@ def construir_filas(hoy: date) -> list[dict]:
         fila = dict(fondo)
         fila["fuente"] = "catalogo_curado"
         fila["estado"] = recalcular_estado(fondo, hoy)
+        # Fondos anuales sin fecha publicada pero dentro de su ventana estimada
+        # se muestran como "proximo" (a punto de abrir / revisar), no "desconocido".
+        if fila["estado"] == "desconocido" and fondo.get("id") in VENTANAS_ANUALES:
+            meses_estimados = VENTANAS_ANUALES[fondo["id"]][0]
+            if hoy.month in meses_estimados:
+                fila["estado"] = "proximo"
         fila["ventana"] = _ventana_texto(fondo, fila["estado"])
         fila["requisitos"] = json.dumps(fondo.get("requisitos", []), ensure_ascii=False)
         fila["updated_at"] = stamp
