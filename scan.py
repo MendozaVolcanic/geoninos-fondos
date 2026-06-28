@@ -225,6 +225,64 @@ CATALOGO: list[dict] = [
         "score_geoninos": 47, "internacional": 0, "verificado": "no",
     },
     {
+        "id": "SNBP-adquisicion",
+        "nombre": "Programa de Adquisición de Libros de Autores Chilenos (SNBP)",
+        "organismo": "MINCAP / Consejo Nacional del Libro (SNBP)",
+        "categoria": "premio_compra",
+        "tipo": "cultural",
+        "descripcion": (
+            "CANAL DE VENTA AL ESTADO: compra ~300 ejemplares del título seleccionado "
+            "para bibliotecas públicas. EL AUTOR SÍ POSTULA (a diferencia de CRA). "
+            "Requisitos: 1ª edición del año anterior, ISBN, depósito legal, 3 ejemplares. "
+            "Criterios: contenidos 45% + pertinencia 20% (= 65%, donde pega geología-de-Chile). "
+            "Anual (2024 abrió 9-sep, cerró 10-oct; presupuesto $620M). Convocatoria 2026 "
+            "[VERIFICAR en fondosdecultura.cl]. Requiere libro ya publicado."
+        ),
+        "monto_min": "", "monto_max": "", "moneda": "CLP",
+        "fecha_apertura": "", "fecha_cierre": "",
+        "url": "https://www.fondos.gob.cl/ficha/mincap/programa-adquisicion-libros/",
+        "requisitos": ["1ª edición del año anterior", "ISBN + depósito legal",
+                       "3 ejemplares físicos", "postula el autor"],
+        "score_geoninos": 85, "internacional": 0, "verificado": "parcial",
+    },
+    {
+        "id": "premio-marta-brunet",
+        "nombre": "Premio Marta Brunet — Primera infancia (Premios Literarios MINCAP)",
+        "organismo": "MINCAP / Fondo del Libro",
+        "categoria": "premio_compra",
+        "tipo": "cultural",
+        "descripcion": (
+            "Premio a obra YA PUBLICADA (meta postpublicación). Categoría Primera "
+            "infancia (0-6). $4.330.000 + el Ministerio COMPRA el 20% de la 1ª edición "
+            "del ganador (tope 100 ej.) para bibliotecas → prestigio + dinero + venta. "
+            "Exige 1ª edición reciente: conviene sincronizar el lanzamiento. "
+            "Convocatoria 2026 [VERIFICAR]."
+        ),
+        "monto_min": 4_330_000, "monto_max": 4_330_000, "moneda": "CLP",
+        "fecha_apertura": "", "fecha_cierre": "",
+        "url": "https://premiosliterarios.cultura.gob.cl/marta-brunet/",
+        "requisitos": ["obra publicada (1ª edición reciente)", "categoría primera infancia"],
+        "score_geoninos": 72, "internacional": 0, "verificado": "si",
+    },
+    {
+        "id": "premio-colibri",
+        "nombre": "Medalla Colibrí — No ficción infantil (IBBY Chile)",
+        "organismo": "IBBY Chile",
+        "categoria": "premio_compra",
+        "tipo": "cultural",
+        "descripcion": (
+            "Premio a obra YA PUBLICADA (meta postpublicación). Categoría 'No ficción "
+            "infantil'. Sin dinero, pero es la MÁXIMA legitimación ante evaluadores CRA "
+            "y bibliotecarios → impulsa la compra institucional. Postula la sección "
+            "nacional / editorial, no el autor directo."
+        ),
+        "monto_min": 0, "monto_max": 0, "moneda": "CLP",
+        "fecha_apertura": "", "fecha_cierre": "",
+        "url": "https://www.ibbychile.cl/premios/medalla-colibri/",
+        "requisitos": ["obra publicada", "categoría no ficción infantil"],
+        "score_geoninos": 50, "internacional": 0, "verificado": "si",
+    },
+    {
         "id": "CMP-fondo-cultura",
         "nombre": "Fondo de Cultura CMP (grupo CAP)",
         "organismo": "Compañía Minera del Pacífico — CMP",
@@ -505,6 +563,7 @@ VENTANAS_ANUALES: dict[str, tuple[set, str]] = {
     "FL-beca-creacion": ({6, 7}, "abre ~fines de junio, cierra ~fines de julio"),
     "FL-apoyo-ediciones": ({6, 7, 8}, "abre ~fines de junio, cierra ~inicios de agosto"),
     "MINCIENCIA-ciencia-publica": ({5, 6, 7}, "anual, suele abrir mayo–junio"),
+    "SNBP-adquisicion": ({9, 10}, "anual, suele abrir sep–oct"),
 }
 
 

@@ -1,4 +1,4 @@
-# Último escaneo — 2026-06-27
+# Último escaneo — 2026-06-28
 
 ## Alertas
 - 🟡 VENTANA ESTIMADA (abre ~fines de junio, cierra ~fines de julio): Beca de Creación Literaria — Fondo del Libro y la Lectura — revisar si ya abrió: https://www.fondosdecultura.cl/fondos/fondo-libro-lectura/lineas-de-concurso/

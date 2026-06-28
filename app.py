@@ -37,6 +37,7 @@ CATEGORIAS = {
     "patrocinio": "🤝 Patrocinio / aval (sin $)",
     "auspicio_privado": "🏭 Auspicio privado (RSE minera)",
     "editorial": "📚 Vía editorial directa",
+    "premio_compra": "🏆 Premios y compra estatal",
     "internacional": "🌍 Internacional",
 }
 
