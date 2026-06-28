@@ -428,6 +428,47 @@ CATALOGO: list[dict] = [
         "score_geoninos": 18, "internacional": 0, "verificado": "si",
     },
     {
+        "id": "FPA-mma",
+        "nombre": "Fondo de Protección Ambiental (FPA) — MMA",
+        "organismo": "Ministerio del Medio Ambiente",
+        "categoria": "divulgacion_ciencia",
+        "tipo": "cultural",
+        "descripcion": (
+            "Rescatado del catálogo del scanner OVDAS. Financia educación ambiental "
+            "(líneas Establecimientos Educacionales, Pueblos Indígenas, Proyectos "
+            "Sustentables), hasta ~$21M. NO financia el libro en sí, pero un proyecto "
+            "de educación ambiental con base geológica (suelo, agua, geopatrimonio, "
+            "cuidado del entorno) + distribución a escuelas puede entrar VÍA un colegio "
+            "u organización con personalidad jurídica. [VERIFICAR convocatoria]."
+        ),
+        "monto_min": 1_000_000, "monto_max": 21_000_000, "moneda": "CLP",
+        "fecha_apertura": "", "fecha_cierre": "",
+        "url": "https://fondos.mma.gob.cl/fpa/",
+        "requisitos": ["organización/colegio con personalidad jurídica",
+                       "eje ambiental", "vía indirecta (no el autor solo)"],
+        "score_geoninos": 40, "internacional": 0, "verificado": "parcial",
+    },
+    {
+        "id": "natgeo-explorer",
+        "nombre": "National Geographic — Explorer Grant (Level I)",
+        "organismo": "National Geographic Society",
+        "categoria": "internacional",
+        "tipo": "internacional",
+        "descripcion": (
+            "Rescatado del catálogo del scanner OVDAS. Grant para profesionales "
+            "emergentes en ciencias de la Tierra con VOLUNTAD DE DIFUSIÓN PÚBLICA "
+            "(USD 5.000–20.000). Podría financiar la investigación/exploración y la "
+            "divulgación detrás del libro (no la edición comercial). El autor geólogo "
+            "califica por perfil. Postulación en inglés."
+        ),
+        "monto_min": 5_000, "monto_max": 20_000, "moneda": "USD",
+        "fecha_apertura": "", "fecha_cierre": "",
+        "url": "https://www.nationalgeographic.org/society/grants-and-investments/",
+        "requisitos": ["ciencias de la Tierra", "voluntad de difusión pública",
+                       "postulación en inglés"],
+        "score_geoninos": 38, "internacional": 1, "verificado": "parcial",
+    },
+    {
         "id": "UNESCO-participacion",
         "nombre": "UNESCO — Programa de Participación (vía institución)",
         "organismo": "UNESCO (Comisión Nacional Chilena)",

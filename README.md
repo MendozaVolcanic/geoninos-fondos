@@ -6,7 +6,9 @@ financiar un libro álbum de geología para niñas y niños en Chile.
 Proyecto **independiente** del dashboard OVDAS — aquí solo hay fondos de
 divulgación, libro y cultura.
 
-[![Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://streamlit.io)
+### 🔗 En vivo: **https://geoninos-fondos.streamlit.app/**
+
+[![Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://geoninos-fondos.streamlit.app/)
 
 ---
 
