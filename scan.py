@@ -503,6 +503,60 @@ CATALOGO: list[dict] = [
         "requisitos": ["gobierno o startup tecnológica escalable"],
         "score_geoninos": 10, "internacional": 1, "verificado": "si",
     },
+    {
+        "id": "premio-fce-orilla",
+        "nombre": "Premio A la Orilla del Viento — álbum (FCE, México)",
+        "organismo": "Fondo de Cultura Económica (México)",
+        "categoria": "internacional",
+        "tipo": "internacional",
+        "descripcion": (
+            "EL INTERNACIONAL CON MEJOR CALCE. Premio anual al álbum ilustrado INÉDITO "
+            "+ publicación (colección Los Especiales) con distribución en Iberoamérica "
+            "(FCE tiene filial en Chile). Abierto a cualquier nacionalidad, persona "
+            "natural. ~$150.000 MXN (~USD 8.000). DINERO REAL + publica. Puede "
+            "declararse desierto algunos años."
+        ),
+        "monto_min": 150_000, "monto_max": 150_000, "moneda": "MXN",
+        "fecha_apertura": "", "fecha_cierre": "2026-08-28",
+        "url": "https://www.fondodeculturaeconomica.com/",
+        "requisitos": ["álbum ilustrado inédito", "cualquier nacionalidad"],
+        "score_geoninos": 62, "internacional": 1, "verificado": "si",
+    },
+    {
+        "id": "premio-compostela",
+        "nombre": "Premio Compostela de Álbumes Ilustrados (Kalandraka, España)",
+        "organismo": "Concello de Santiago + Kalandraka",
+        "categoria": "internacional",
+        "tipo": "internacional",
+        "descripcion": (
+            "Premio internacional a álbum inédito + edición en 5 lenguas (castellano "
+            "sirve). 9.000 €. ⚠️ PROHÍBE obra hecha con IA → recordar que nuestras "
+            "imágenes IA son solo concepto; el arte final humano cumple. Anual ~mayo; "
+            "verificar próxima edición."
+        ),
+        "monto_min": 9_000, "monto_max": 9_000, "moneda": "EUR",
+        "fecha_apertura": "", "fecha_cierre": "",
+        "url": "https://www.kalandraka.com/",
+        "requisitos": ["álbum inédito", "texto en lengua ibérica", "sin IA"],
+        "score_geoninos": 58, "internacional": 1, "verificado": "si",
+    },
+    {
+        "id": "premio-nami",
+        "nombre": "Nami Concours — ilustración (Corea)",
+        "organismo": "Nami Island (Corea)",
+        "categoria": "internacional",
+        "tipo": "internacional",
+        "descripcion": (
+            "Premio mundial de ILUSTRACIÓN de libro infantil (no publica el libro; "
+            "premia las imágenes). Para el frente de ilustración (del/la ilustrador/a). "
+            "Grand Prix USD 10.000. Sin cuota. Cerró oct-2025 → apuntar a 2027."
+        ),
+        "monto_min": 2_000, "monto_max": 10_000, "moneda": "USD",
+        "fecha_apertura": "", "fecha_cierre": "",
+        "url": "https://www.namiconcours.com/",
+        "requisitos": ["porfolio de ilustración", "mundial"],
+        "score_geoninos": 45, "internacional": 1, "verificado": "si",
+    },
     # ── Vía editorial directa (no son fondos, son puertas de publicación) ──
     {
         "id": "ED-amanuta",
@@ -605,6 +659,7 @@ VENTANAS_ANUALES: dict[str, tuple[set, str]] = {
     "FL-apoyo-ediciones": ({6, 7, 8}, "abre ~fines de junio, cierra ~inicios de agosto"),
     "MINCIENCIA-ciencia-publica": ({5, 6, 7}, "suele abrir mayo–junio"),
     "SNBP-adquisicion": ({9, 10}, "suele abrir sep–oct"),
+    "premio-compostela": ({4, 5}, "premio anual de álbum, ~mayo"),
 }
 
 
