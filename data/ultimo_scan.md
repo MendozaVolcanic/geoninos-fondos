@@ -1,3 +1,3 @@
-# Último escaneo — 2026-08-10
+# Último escaneo — 2026-08-11
 
 Sin novedades: ninguna convocatoria abrió ni entró en ventana estimada.
