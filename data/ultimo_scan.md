@@ -1,4 +1,3 @@
-# Último escaneo — 2026-10-31
+# Último escaneo — 2026-11-01
 
-## Alertas
-- 🟡 VENTANA ESTIMADA (suele abrir sep–oct): Programa de Adquisición de Libros de Autores Chilenos (SNBP) — revisar si ya abrió: https://www.fondos.gob.cl/ficha/mincap/programa-adquisicion-libros/
+Sin novedades: ninguna convocatoria abrió ni entró en ventana estimada.
